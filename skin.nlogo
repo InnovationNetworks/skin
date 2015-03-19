@@ -126,7 +126,11 @@ networks-own [
 
 to setup
   no-display
-  clear-all
+  ;; (for this model to work with NetLogo's new plotting features,
+  ;; __clear-all-and-reset-ticks should be replaced with clear-all at
+  ;; the beginning of your setup procedure and reset-ticks at the end
+  ;; of the procedure.)
+  __clear-all-and-reset-ticks
   ask patches [set pcolor white ]
   
   ; set basic global parameters
@@ -1230,7 +1234,7 @@ end
 GRAPHICS-WINDOW
 320
 50
-517
+565
 268
 89
 89
@@ -1252,6 +1256,7 @@ GRAPHICS-WINDOW
 0
 1
 ticks
+30.0
 
 BUTTON
 35
@@ -1268,6 +1273,7 @@ NIL
 NIL
 NIL
 NIL
+1
 
 PLOT
 635
@@ -1283,9 +1289,10 @@ N
 100.0
 true
 true
+"" ""
 PENS
-"Firms" 1.0 0 -16777216 true
-"Networks" 1.0 0 -10899396 true
+"Firms" 1.0 0 -16777216 true "" ""
+"Networks" 1.0 0 -10899396 true "" ""
 
 PLOT
 635
@@ -1301,9 +1308,10 @@ Time
 100.0
 true
 true
+"" ""
 PENS
-"In partnership" 1.0 0 -5825686 true
-"In network" 1.0 0 -10899396 true
+"In partnership" 1.0 0 -5825686 true "" ""
+"In network" 1.0 0 -10899396 true "" ""
 
 BUTTON
 150
@@ -1320,6 +1328,7 @@ NIL
 NIL
 NIL
 NIL
+1
 
 CHOOSER
 20
@@ -1345,9 +1354,10 @@ Time
 100.0
 true
 true
+"" ""
 PENS
-"Firms selling" 1.0 0 -7500403 true
-"Firms trading" 1.0 0 -6459832 true
+"Firms selling" 1.0 0 -7500403 true "" ""
+"Firms trading" 1.0 0 -6459832 true "" ""
 
 SLIDER
 20
@@ -1393,9 +1403,10 @@ Time
 100.0
 true
 true
+"" ""
 PENS
-"Successes" 1.0 0 -13791810 true
-"Start-ups" 1.0 0 -2674135 true
+"Successes" 1.0 0 -13791810 true "" ""
+"Start-ups" 1.0 0 -2674135 true "" ""
 
 SLIDER
 20
@@ -1406,7 +1417,7 @@ big-firms-percent
 big-firms-percent
 0
 100
-0
+10
 1
 1
 NIL
@@ -1426,8 +1437,9 @@ Count
 5.0
 true
 false
+"" ""
 PENS
-"default" 1.0 1 -10899396 true
+"default" 1.0 1 -10899396 true "" ""
 
 SLIDER
 21
@@ -1473,8 +1485,9 @@ log 10 Capital
 10.0
 true
 true
+"" ""
 PENS
-"Average" 1.0 0 -2674135 false
+"Average" 1.0 0 -2674135 false "" ""
 
 PLOT
 10
@@ -1490,8 +1503,9 @@ Log (deg. distrib.)
 2.0
 true
 false
+"" ""
 PENS
-"default" 1.0 0 -16777216 true
+"default" 1.0 0 -16777216 true "" ""
 
 PLOT
 515
@@ -1507,8 +1521,9 @@ Frequency
 10.0
 true
 false
+"" ""
 PENS
-"default" 1.0 1 -16777216 true
+"default" 1.0 1 -16777216 true "" ""
 
 PLOT
 250
@@ -1524,8 +1539,9 @@ N
 10.0
 true
 false
+"" ""
 PENS
-"Age" 1.0 1 -10899396 true
+"Age" 1.0 1 -10899396 true "" ""
 
 PLOT
 260
@@ -1541,9 +1557,10 @@ NIL
 40.0
 true
 true
+"" ""
 PENS
-"Inputs" 1.0 1 -11221820 true
-"Products" 1.0 1 -10899396 true
+"Inputs" 1.0 1 -11221820 true "" ""
+"Products" 1.0 1 -10899396 true "" ""
 
 PLOT
 515
@@ -1559,8 +1576,9 @@ NIL
 50.0
 true
 false
+"" ""
 PENS
-"size" 1.0 1 -13791810 true
+"size" 1.0 1 -13791810 true "" ""
 
 PLOT
 745
@@ -1576,8 +1594,9 @@ NIL
 10.0
 true
 false
+"" ""
 PENS
-"rad-research" 1.0 0 -16777216 true
+"rad-research" 1.0 0 -16777216 true "" ""
 
 SWITCH
 7
@@ -1659,9 +1678,10 @@ Mean value per firm
 10.0
 true
 true
+"" ""
 PENS
-"Sales" 1.0 0 -13345367 true
-"Profit" 1.0 0 -2064490 true
+"Sales" 1.0 0 -13345367 true "" ""
+"Profit" 1.0 0 -2064490 true "" ""
 
 SWITCH
 829
@@ -1755,88 +1775,85 @@ SKIN (Simulating Knowledge Dynamics in Innovation Networks) 5.31
 1
 
 @#$#@#$#@
-WHAT IS IT?
------------
+## WHAT IS IT?
+
 SKIN (Simulating Knowledge Dynamics in Innovation Networks) is a multi-agent model of innovation networks in knowledge-intensive industries grounded in empirical research and theoretical frameworks from innovation economics and economic sociology. The agents represent innovative firms who try to sell their innovations to other agents and end users but who also have to buy raw materials or more sophisticated inputs from other agents (or material suppliers) in order to produce their outputs. This basic model of a market is extended with a representation of the knowledge dynamics in and between the firms. Each firm tries to improve its innovation performance and its sales by improving its knowledge base through adaptation to user needs, incremental or radical learning, and co-operation and networking with other agents.
 
-
-HOW IT WORKS
-------------
+## HOW IT WORKS
 
 The agents
 
-The individual knowledge base of a SKIN agent, its kene, contains a number of “units of knowledge”. Each unit in a kene is represented as a triple consisting of a firm’s capability C in a scientific, technological or business domain, its ability A to perform a certain application in this field, and the expertise level E the firm has achieved with respect to this ability. The units of knowledge in the kenes of the agents can be used to describe their virtual knowledge bases. 
+The individual knowledge base of a SKIN agent, its kene, contains a number of "units of knowledge". Each unit in a kene is represented as a triple consisting of a firm's capability C in a scientific, technological or business domain, its ability A to perform a certain application in this field, and the expertise level E the firm has achieved with respect to this ability. The units of knowledge in the kenes of the agents can be used to describe their virtual knowledge bases. 
 
 The market
 
 Because actors in empirical innovation networks of knowledge-intensive industries interact on both the knowledge and the market levels, there needs to be a representation of market dynamics in the SKIN model. Agents are therefore characterised by their capital stock. Each firm, when it is set up, has a stock of initial capital. It needs this capital to produce for the market and to finance its R&D expenditures; it can increase its capital by selling products. The amount of capital owned by a firm is used as a measure of its size and additionally influences the amount of knowledge (measured by the number of triples in its kene) that it can maintain.  Most firms are initially given the same starting capital allocation, but in order to model differences in firm size, a few randomly chosen firms can be allocated extra capital. 
 
-Firms apply their knowledge to create innovative products that have a chance of being successful in the market. The special focus of a firm, its potential innovation, is called an innovation hypothesis. In the model, the innovation hypothesis (IH) is derived from a subset of the firm’s kene triples.
- 
+Firms apply their knowledge to create innovative products that have a chance of being successful in the market. The special focus of a firm, its potential innovation, is called an innovation hypothesis. In the model, the innovation hypothesis (IH) is derived from a subset of the firm's kene triples.
+   
 The underlying idea for an innovation, modelled by the innovation hypothesis, is the source an agent uses for its attempts to make profits in the market. Because of the fundamental uncertainty of innovation, there is no simple relationship between the innovation hypothesis and product development. To represent this uncertainty,  the innovation hypothesis is transformed into a product through a mapping procedure where the capabilities of the innovation hypothesis are used to compute an index number that represents the product. The particular transformation procedure applied allows the same product to result from different kenes.
 
-A firm’s product, P, is generated from its innovation hypothesis as
+A firm's product, P, is generated from its innovation hypothesis as
+
                                              
+
 P = Sum (capability * ability) mod N
 
 where N is a large constant and represents the notional total number of possible different products that could be present in the market).
 
 A product has a certain quality, which is also computed from the innovation hypothesis in a similar way, by multiplying the abilities and the expertise levels for each triple in the innovation hypothesis and normalising the result. Whereas the abilities used to design a product can be used as a proxy for its product characteristics, the expertise of the applied abilities is an indicator of the potential product quality. 
 
-In order to realise the product, the agent needs some materials. These can either come from outside the sector (“raw materials”) or from other firms, which generated them as their products. Which materials are needed is again determined by the underlying innovation hypothesis: the kind of material required for an input is obtained by selecting subsets from the innovation hypotheses and applying the standard mapping function. 
+In order to realise the product, the agent needs some materials. These can either come from outside the sector ("raw materials") or from other firms, which generated them as their products. Which materials are needed is again determined by the underlying innovation hypothesis: the kind of material required for an input is obtained by selecting subsets from the innovation hypotheses and applying the standard mapping function. 
 
-These inputs are chosen so that each is different and differs from the firm’s own product. In order to be able to engage in production, all the inputs need to be obtainable on the market, i.e. provided by other firms or available as raw materials. If the inputs are not available, the firm is not able to produce and has to give up this attempt to innovate. If there is more than one supplier for a certain input, the agent will choose the one at the cheapest price and, if there are several similar offers, the one with the highest quality. 
- 
-If the firm can go into production, it has to find a price for its product, taking into account the input prices it is paying and a possible profit margin. While the simulation starts with product prices set at random, as the simulation proceeds a price adjustment mechanism following a standard mark-up pricing model increases the selling price if there is much demand, and reduces it (but no lower than the total cost of production) if there are no customers.  Some products are considered to be destined for the ‘end-user’ and are sold to customers outside the sector: there is always a demand for such end-user products provided that they are offered at or below a fixed end-user price. A firm buys the requested inputs from its suppliers using its capital to do so, produces its output and puts it on the market for others to purchase. Using the price adjustment mechanism, agents are able to adapt their prices to demand and in doing so learn by feedback. 
+These inputs are chosen so that each is different and differs from the firm's own product. In order to be able to engage in production, all the inputs need to be obtainable on the market, i.e. provided by other firms or available as raw materials. If the inputs are not available, the firm is not able to produce and has to give up this attempt to innovate. If there is more than one supplier for a certain input, the agent will choose the one at the cheapest price and, if there are several similar offers, the one with the highest quality. 
+   
+If the firm can go into production, it has to find a price for its product, taking into account the input prices it is paying and a possible profit margin. While the simulation starts with product prices set at random, as the simulation proceeds a price adjustment mechanism following a standard mark-up pricing model increases the selling price if there is much demand, and reduces it (but no lower than the total cost of production) if there are no customers.  Some products are considered to be destined for the "end-user" and are sold to customers outside the sector: there is always a demand for such end-user products provided that they are offered at or below a fixed end-user price. A firm buys the requested inputs from its suppliers using its capital to do so, produces its output and puts it on the market for others to purchase. Using the price adjustment mechanism, agents are able to adapt their prices to demand and in doing so learn by feedback. 
 
-In making a product, an agent applies the knowledge in its innovation hypothesis and this increases its expertise in this area. This is the way that learning by doing/using is modelled. The expertise levels of the triples in the innovation hypothesis are increased and the expertise levels of the other triples are decremented. Expertise in unused triples in the kene is eventually lost and the triples are then deleted from the kene; the corresponding abilities are “forgotten”.
+In making a product, an agent applies the knowledge in its innovation hypothesis and this increases its expertise in this area. This is the way that learning by doing/using is modelled. The expertise levels of the triples in the innovation hypothesis are increased and the expertise levels of the other triples are decremented. Expertise in unused triples in the kene is eventually lost and the triples are then deleted from the kene; the corresponding abilities are "forgotten".
 
 Thus, in trying to be successful on the market, firms are dependent on their innovation hypothesis, i.e. on their kene. If a product does not meet any demand, the firm has to adapt its knowledge in order to produce something else for which there are customers. A firm has several ways of improving its performance, either alone or in co-operation, and in either an incremental or a more radical fashion. 
 
 Learning and co-operation: improving innovation performance
 
-In the SKIN model, firms may engage in single- and double-loop learning activities. Firm agents can:
-*	use their capabilities (learning by doing/using) and learn to estimate their success via feedback from markets and clients (learning by feedback) as already mentioned above and/or
+In the SKIN model, firms may engage in single- and double-loop learning activities. Firm agents can:  
+*	use their capabilities (learning by doing/using) and learn to estimate their success via feedback from markets and clients (learning by feedback) as already mentioned above and/or  
 *	improve their own knowledge incrementally when the feedback is not satisfactory in order to adapt to changing technological and/or economic standards (adaptation learning, incremental learning).
 
-If a firm’s previous innovation has been successful, i.e. it has found buyers, the firm will continue selling the same product in the next round, possibly at a different price depending on the demand it has experienced. However, if there were no sales, it considers that it is time for change. If the firm still has enough capital, it will carry out “incremental” research (R&D in the firm’s labs). Performing incremental research means that a firm tries to improve its product by altering one of the abilities chosen from the triples in its innovation hypothesis, while sticking to its focal capabilities. The ability in each triple is considered to be a point in the respective capability’s action space. To move in the action space means to go up or down by an increment, thus allowing for two possible “research directions”. 
+If a firm's previous innovation has been successful, i.e. it has found buyers, the firm will continue selling the same product in the next round, possibly at a different price depending on the demand it has experienced. However, if there were no sales, it considers that it is time for change. If the firm still has enough capital, it will carry out "incremental" research (R&D in the firm's labs). Performing incremental research means that a firm tries to improve its product by altering one of the abilities chosen from the triples in its innovation hypothesis, while sticking to its focal capabilities. The ability in each triple is considered to be a point in the respective capability's action space. To move in the action space means to go up or down by an increment, thus allowing for two possible "research directions". 
 
-Alternatively, firms can radically change their capabilities in order to meet completely different client requirements (innovative learning, radical learning). A SKIN firm agent under serious pressure and in danger of becoming bankrupt, will turn to more radical measures, by exploring a completely different area of market opportunities. In the model, an agent under financial pressure turns to a new innovation hypothesis after first “inventing” a new capability for its kene. This is done by randomly replacing a capability in the kene with a new one and then generating a new innovation hypothesis. 
+Alternatively, firms can radically change their capabilities in order to meet completely different client requirements (innovative learning, radical learning). A SKIN firm agent under serious pressure and in danger of becoming bankrupt, will turn to more radical measures, by exploring a completely different area of market opportunities. In the model, an agent under financial pressure turns to a new innovation hypothesis after first "inventing" a new capability for its kene. This is done by randomly replacing a capability in the kene with a new one and then generating a new innovation hypothesis. 
 
-An agent in the model may consider partnerships (alliances, joint ventures etc.) in order to exploit external knowledge sources. The decision whether and with whom to co-operate is based on the mutual observations of the firms, which estimate the chances and requirements coming from competitors, possible and past partners, and clients.  In the SKIN model, a marketing feature provides the information that a firm can gather about other agents: to advertise its product, a firm publishes the capabilities used in its innovation hypothesis. Those capabilities not included in its innovation hypothesis and thus in its product are not visible externally and cannot be used to select the firm as a partner. The firm’s ‘advertisement’ is then the basis for decisions by other firms to form or reject co-operative arrangements.
+An agent in the model may consider partnerships (alliances, joint ventures etc.) in order to exploit external knowledge sources. The decision whether and with whom to co-operate is based on the mutual observations of the firms, which estimate the chances and requirements coming from competitors, possible and past partners, and clients.  In the SKIN model, a marketing feature provides the information that a firm can gather about other agents: to advertise its product, a firm publishes the capabilities used in its innovation hypothesis. Those capabilities not included in its innovation hypothesis and thus in its product are not visible externally and cannot be used to select the firm as a partner. The firm's "advertisement" is then the basis for decisions by other firms to form or reject co-operative arrangements.
 
-In experimenting with the model, one can choose between two different partner search strategies, both of which compare the firm’s own capabilities as used in its innovation hypothesis and the possible partner’s capabilities as seen in its advertisement. Applying the conservative strategy, a firm will be attracted to a partner that has similar capabilities; using a progressive strategy the attraction is based on the difference between the capability sets. 
+In experimenting with the model, one can choose between two different partner search strategies, both of which compare the firm's own capabilities as used in its innovation hypothesis and the possible partner's capabilities as seen in its advertisement. Applying the conservative strategy, a firm will be attracted to a partner that has similar capabilities; using a progressive strategy the attraction is based on the difference between the capability sets. 
 
-To find a partner, the firm will look at previous partners first, then at its suppliers, customers and finally at all others. If there is a firm sufficiently attractive according to the chosen search strategy (i.e. with attractiveness above the ‘attractiveness threshold’), it will stop its search and offer a partnership. If the potential partner wishes to return the partnership offer, the partnership is set up. 
+To find a partner, the firm will look at previous partners first, then at its suppliers, customers and finally at all others. If there is a firm sufficiently attractive according to the chosen search strategy (i.e. with attractiveness above the "attractiveness threshold"), it will stop its search and offer a partnership. If the potential partner wishes to return the partnership offer, the partnership is set up. 
 
-The model assumes that partners learn only about the knowledge being actively used by the other agent. Thus, to learn from a partner, a firm will add the triples of the partner’s innovation hypothesis to its own. For capabilities that are new to it, the expertise levels of the triples taken from the partner are reduced in order to mirror the difficulty of integrating external knowledge as stated in empirical learning research.  For partner’s capabilities that are already known to it, if the partner has a higher expertise level, the firm will drop its own triple in favour of the partner’s one; if the expertise level of a similar triple is lower, the firm will stick to its own version. Once the knowledge transfer has been completed, each firm continues to produce its own product, possibly with greater expertise as a result of acquiring skills from its partner.
+The model assumes that partners learn only about the knowledge being actively used by the other agent. Thus, to learn from a partner, a firm will add the triples of the partner's innovation hypothesis to its own. For capabilities that are new to it, the expertise levels of the triples taken from the partner are reduced in order to mirror the difficulty of integrating external knowledge as stated in empirical learning research.  For partner's capabilities that are already known to it, if the partner has a higher expertise level, the firm will drop its own triple in favour of the partner's one; if the expertise level of a similar triple is lower, the firm will stick to its own version. Once the knowledge transfer has been completed, each firm continues to produce its own product, possibly with greater expertise as a result of acquiring skills from its partner.
 
-If the firm’s last innovation was successful, i.e. the value of its profit in the previous round was above a threshold, and the firm has some partners at hand, it can initiate the formation of a network. This can increase its profits because the network will try to create innovations as an autonomous agent in addition to those created by its members and will distribute any rewards back to its members who, in the meantime, can continue with their own attempts, thus providing a double chance for profits. Networks are “normal” agents, i.e. they get the same amount of initial capital as other firms and can engage in all the activities available to other firms. The kene of a network is the union of the triples from the innovation hypotheses of all its participants. If a network is successful it will distribute any earnings above the amount of the initial capital to its members; if it fails and becomes bankrupt, it will be dissolved. 
+If the firm's last innovation was successful, i.e. the value of its profit in the previous round was above a threshold, and the firm has some partners at hand, it can initiate the formation of a network. This can increase its profits because the network will try to create innovations as an autonomous agent in addition to those created by its members and will distribute any rewards back to its members who, in the meantime, can continue with their own attempts, thus providing a double chance for profits. Networks are "normal" agents, i.e. they get the same amount of initial capital as other firms and can engage in all the activities available to other firms. The kene of a network is the union of the triples from the innovation hypotheses of all its participants. If a network is successful it will distribute any earnings above the amount of the initial capital to its members; if it fails and becomes bankrupt, it will be dissolved. 
 
 Start-ups
 
-If a sector is successful, new firms will be attracted into it. This is modelled by adding a new firm to the population when any existing firm makes a substantial profit. The new firm is a clone of the successful firm, but with its kene triples restricted to those in the successful firm’s advertisement and these having a low expertise level. This models a new firm copying the characteristics of those seen to be successful in the market. As with all firms, the kene may also be restricted because the initial capital of a start-up is limited and may not be sufficient to support the copying of the whole of the successful firm’s innovation hypothesis.
+If a sector is successful, new firms will be attracted into it. This is modelled by adding a new firm to the population when any existing firm makes a substantial profit. The new firm is a clone of the successful firm, but with its kene triples restricted to those in the successful firm's advertisement and these having a low expertise level. This models a new firm copying the characteristics of those seen to be successful in the market. As with all firms, the kene may also be restricted because the initial capital of a start-up is limited and may not be sufficient to support the copying of the whole of the successful firm's innovation hypothesis.
 
 
 
+## REFERENCES
 
-
-REFERENCES
-----------
-More information about SKIN and research based on it can be found at: http://cress.soc.surrey.ac.uk/skin/home
-
+More information about SKIN and research based on it can be found at: http://agent-based-modeling.com/SKIN/
 
 The following papers describe the model and how it has been used by its originators:
 
 Gilbert, Nigel, Pyka, Andreas, & Ahrweiler, Petra. (2001b). Innovation networks - a simulation approach. Journal of Artificial Societies and Social Simulation, 4(3)8, <http://jasss.soc.surrey.ac.uk/4/3/8.html>.
 
-Vaux, Janet, & Gilbert, Nigel. (2003). Innovation networks by design: The case of the mobile VCE. In A. Pyka & G. Küppers (Eds.), Innovation networks: Theory and practice. Cheltenham: Edward Elgar.
+Vaux, Janet, & Gilbert, Nigel. (2003). Innovation networks by design: The case of the mobile VCE. In A. Pyka & G. K√ºppers (Eds.), Innovation networks: Theory and practice. Cheltenham: Edward Elgar.
 
-Pyka, Andreas, Gilbert, Nigel, & Ahrweiler, Petra. (2003). Simulating innovation networks. In A. Pyka & G. Küppers; (Eds.), Innovation networks: Theory and practice. Cheltenham: Edward Elgar.
+Pyka, Andreas, Gilbert, Nigel, & Ahrweiler, Petra. (2003). Simulating innovation networks. In A. Pyka & G. K√ºppers; (Eds.), Innovation networks: Theory and practice. Cheltenham: Edward Elgar.
 
 Ahrweiler, Petra, Pyka, Andreas, & Gilbert, Nigel. (2004). Simulating knowledge dynamics in innovation networks (SKIN). In R. Leombruni & M. Richiardi (Eds.),Industry and labor dynamics: The agent-based computational economics approach. Singapore: World Scientific Press.
 
-Ahrweiler, Petra, Pyka, Andreas & Gilbert, Nigel. (2004), Die Simulation von Lernen in Innovationsnetzwerken, in: Michael Florian und Frank Hillebrandt (eds.): Adaption und Lernen in und von Organisationen. VS-Verlag für Sozialwissenschaften, Opladen 2004, 165-186.
+Ahrweiler, Petra, Pyka, Andreas & Gilbert, Nigel. (2004), Die Simulation von Lernen in Innovationsnetzwerken, in: Michael Florian und Frank Hillebrandt (eds.): Adaption und Lernen in und von Organisationen. VS-Verlag f√ºr Sozialwissenschaften, Opladen 2004, 165-186.
 
 Pyka, A. (2006), Modelling Qualitative Development. Agent Based Approaches in Economics, in: Rennard, J.-P. (Hrsg.), Handbook of Research on Nature Inspired Computing for Economy and Management, Idea Group Inc., Hershey, USA, 211-224.
 
@@ -1844,31 +1861,27 @@ Gilbert, Nigel, Ahrweiler, Petra, & Pyka, Andreas. (2007). Learning in innovatio
 
 Pyka, Andreas, Gilbert, Nigel, & Ahrweiler, Petra. (2007). Simulating knowledge-generation and distribution processes in innovation collaborations and networks. Cybernetics and Systems, 38 (7), 667-693.
 
-Pyka, Andreas, Gilbert, Nigel & Petra Ahrweiler (2009), Agent-Based Modelling of Innovation Networks – The Fairytale of Spillover, in: Pyka, A. and Scharnhorst, A. (eds.), Innovation Networks – New Approaches in Modelling and Analyzing, Springer: Complexity, Heidelberg and New York, 101-126.
+Pyka, Andreas, Gilbert, Nigel & Petra Ahrweiler (2009), Agent-Based Modelling of Innovation Networks - The Fairytale of Spillover, in: Pyka, A. and Scharnhorst, A. (eds.), Innovation Networks - New Approaches in Modelling and Analyzing, Springer: Complexity, Heidelberg and New York, 101-126.
 
 Gilbert, N., P. Ahrweiler and A. Pyka (2010): Learning in Innovation Networks: some Simulation Experiments. In P. Ahrweiler, (ed.) : Innovation in complex social systems. London: Routledge (Reprint from Physica A, 2007), pp. 235-249.
 
-Scholz, R., T. Nokkala, P. Ahrweiler, A. Pyka and N. Gilbert (2010): The agent-based Nemo Model (SKEIN) – simulating European Framework Programmes. In P. Ahrweiler (ed.): Innovation in complex social systems. London: Routledge, pp. 300-314.
+Scholz, R., T. Nokkala, P. Ahrweiler, A. Pyka and N. Gilbert (2010): The agent-based Nemo Model (SKEIN) - simulating European Framework Programmes. In P. Ahrweiler (ed.): Innovation in complex social systems. London: Routledge, pp. 300-314.
 
 Ahrweiler, P., A. Pyka and N. Gilbert (forthcoming): A new Model for University-Industry Links in knowledge-based Economies. Journal of Product Innovation Management.
 
 Ahrweiler, P., N. Gilbert and A. Pyka (2010): Agency and Structure. A social simulation of knowledge-intensive Industries. Computational and Mathematical Organization Theory (forthcoming).
 
-
-CREDITS
--------
-
+## CREDITS
 
 To cite the SKIN model please use the following acknowledgement:
 
 Gilbert, Nigel, Ahrweiler, Petra and Pyka, Andreas (2010) The SKIN (Simulating Knowledge Dynamics in Innovation Networks) model.  University of Surrey, University College Dublin and University of Hohenheim.
 
-Copyright 2003 - 2010 Nigel Gilbert, Petra Ahrweiler and Andreas Pyka. All rights reserved.
+Copyright 2003 - 2015 Nigel Gilbert, Petra Ahrweiler and Andreas Pyka. All rights reserved.
 
 Permission to use, modify or redistribute this model is hereby granted, provided that both of the following requirements are followed: a) this copyright notice is included. b) this model will not be redistributed for profit without permission and c) the requirements of the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License <http://creativecommons.org/licenses/by-nc-sa/3.0/> are complied with.
 
 The authors gratefully acknowldge funding during the course of development of the model from the European Commission, DAAD, and the British Council.
-
 @#$#@#$#@
 default
 true
@@ -2126,17 +2139,193 @@ Polygon -6459832 true true 46 128 33 120 21 118 11 123 3 138 5 160 13 178 9 192 
 Polygon -6459832 true true 67 122 96 126 63 144
 
 @#$#@#$#@
-NetLogo 4.1.2
+NetLogo 5.1.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="default" repetitions="1" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="200"/>
+    <metric>count firms with [ age = 0 and ticks != 0 and not hq?] / count firms</metric>
+    <metric>count firms with [ trading? ] / count firms</metric>
+    <enumeratedValueSet variable="In-out-products-percent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="partnership-strategy">
+      <value value="&quot;conservative&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="attractiveness-threshold">
+      <value value="0.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Adj-price">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Rad-research">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="reward-to-trigger-start-up">
+      <value value="1200"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="big-firms-percent">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nInputs">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nProducts">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nFirms">
+      <value value="500"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="success-threshold">
+      <value value="1000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Partnering">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Adj-expertise">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="initial-capital">
+      <value value="20000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Networking">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Start-ups">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incr-research">
+      <value value="true"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="false2true" repetitions="1" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="200"/>
+    <metric>count firms with [ age = 0 and ticks != 0 and not hq?] / count firms</metric>
+    <metric>count firms with [ trading? ] / count firms</metric>
+    <enumeratedValueSet variable="In-out-products-percent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="partnership-strategy">
+      <value value="&quot;conservative&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="attractiveness-threshold">
+      <value value="0.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Adj-price">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Rad-research">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="reward-to-trigger-start-up">
+      <value value="1200"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="big-firms-percent">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nInputs">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nProducts">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nFirms">
+      <value value="500"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="success-threshold">
+      <value value="1000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Partnering">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Adj-expertise">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="initial-capital">
+      <value value="20000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Networking">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Start-ups">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incr-research">
+      <value value="true"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="zero2ten" repetitions="1" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="200"/>
+    <metric>count firms with [ age = 0 and ticks != 0 and not hq?] / count firms</metric>
+    <metric>count firms with [ trading? ] / count firms</metric>
+    <enumeratedValueSet variable="In-out-products-percent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="partnership-strategy">
+      <value value="&quot;conservative&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="attractiveness-threshold">
+      <value value="0.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Adj-price">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Rad-research">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="reward-to-trigger-start-up">
+      <value value="1200"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="big-firms-percent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nInputs">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nProducts">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="nFirms">
+      <value value="500"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="success-threshold">
+      <value value="1000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Partnering">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Adj-expertise">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="initial-capital">
+      <value value="20000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Networking">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Start-ups">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incr-research">
+      <value value="true"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
 0.0
--0.2 0 1.0 0.0
+-0.2 0 0.0 1.0
 0.0 1 1.0 0.0
-0.2 0 1.0 0.0
+0.2 0 0.0 1.0
 link direction
 true
 0
