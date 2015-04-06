@@ -222,7 +222,7 @@ to go
     if partnership-strategy != "no partners" [ collaborate ]
     do-research 
     manufacture
-    pay-taxes
+    if should-pay-tax [pay-taxes]
   ]
   find-suppliers
   buy
@@ -1391,9 +1391,9 @@ HORIZONTAL
 
 PLOT
 250
-520
+590
 510
-675
+745
 Dynamics
 Time
 % of firms
@@ -1425,9 +1425,9 @@ HORIZONTAL
 
 PLOT
 745
-520
+590
 945
-671
+741
 Networks
 Size
 Count
@@ -1450,7 +1450,7 @@ nFirms
 nFirms
 0
 1000
-500
+112
 1
 1
 NIL
@@ -1473,9 +1473,9 @@ HORIZONTAL
 
 PLOT
 10
-520
+590
 245
-675
+745
 Capital
 Time
 log 10 Capital
@@ -1491,9 +1491,9 @@ PENS
 
 PLOT
 10
-679
+749
 245
-859
+929
 Network size
 Log (k)
 Log (deg. distrib.)
@@ -1509,9 +1509,9 @@ PENS
 
 PLOT
 515
-520
+590
 740
-672
+742
 Partners
 Number
 Frequency
@@ -1527,9 +1527,9 @@ PENS
 
 PLOT
 250
-680
+750
 510
-860
+930
 Age distribution
 Age
 N
@@ -1564,9 +1564,9 @@ PENS
 
 PLOT
 515
-680
+750
 740
-860
+930
 Size distribution
 NIL
 NIL
@@ -1582,9 +1582,9 @@ PENS
 
 PLOT
 745
-680
+750
 945
-860
+930
 Rate of radical research
 NIL
 NIL
@@ -1599,21 +1599,21 @@ PENS
 "rad-research" 1.0 0 -16777216 true "" ""
 
 SWITCH
-7
-473
-149
-506
+10
+490
+152
+523
 Adj-expertise
 Adj-expertise
-1
+0
 1
 -1000
 
 SWITCH
-154
-473
-270
-506
+157
+490
+273
+523
 Adj-price
 Adj-price
 1
@@ -1621,10 +1621,10 @@ Adj-price
 -1000
 
 SWITCH
-275
-473
-417
-506
+278
+490
+420
+523
 Incr-research
 Incr-research
 0
@@ -1632,10 +1632,10 @@ Incr-research
 -1000
 
 SWITCH
-422
-472
-563
-505
+425
+489
+566
+522
 Rad-research
 Rad-research
 1
@@ -1643,10 +1643,10 @@ Rad-research
 -1000
 
 SWITCH
-569
-472
-690
-505
+572
+489
+693
+522
 Partnering
 Partnering
 1
@@ -1654,10 +1654,10 @@ Partnering
 -1000
 
 SWITCH
-696
-471
-823
-504
+699
+488
+826
+521
 Networking
 Networking
 1
@@ -1684,10 +1684,10 @@ PENS
 "Profit" 1.0 0 -2064490 true "" ""
 
 SWITCH
-829
-471
-945
-504
+832
+488
+948
+521
 Start-ups
 Start-ups
 1
@@ -1703,7 +1703,7 @@ success-threshold
 success-threshold
 0
 10000
-1000
+1057
 1
 1
 NIL
@@ -1718,7 +1718,7 @@ reward-to-trigger-start-up
 reward-to-trigger-start-up
 0
 2000
-1200
+1219
 1
 1
 NIL
@@ -1758,7 +1758,7 @@ initial-capital
 initial-capital
 0
 100000
-20000
+13000
 1000
 1
 NIL
@@ -1773,6 +1773,17 @@ SKIN (Simulating Knowledge Dynamics in Innovation Networks) 5.31
 11
 0.0
 1
+
+SWITCH
+10
+540
+150
+573
+Should-pay-tax
+Should-pay-tax
+1
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?
