@@ -29,9 +29,13 @@
 ;                                incr-step now proportional to capability value
 ; version 5    23 April   2010   Stripped down and simplified version of v4.29, converted to NetLogo 4.1
 ;--------------------------------------------------------------------------------------------------------
-; version C1.0   18 September 2015 Ben Vermeulen: Distribution of abilities was not uniform 
+; version C1.00  18 September 2015 Ben Vermeulen: Distribution of abilities was not uniform 
 ;                                  due to reflecting boundaries and included 10. Added mod 10 and random walk.
-;
+; version C1.01  18 September 2015 Ben Vermeulen: Gaining expertise could cause the quality to wrap around (go from 
+;                                       nearly 10 to just above 0).
+;                                       Quality formula is now changed to using mean expertise [0, 1] as scale 
+;                                       on sum of abilities mod 10, will hence always be >= 0, < 10
+
 ; Notes:
 ;   A firm cannot be a member of more than 1 network at any one time
 ;   In the plots, networks are included in the count of firms (but not partnerships)
@@ -331,11 +335,21 @@ end
 
 ;firm procedure
 to make-quality
-  set quality 
-    (reduce [?1 + ?2]   
-      (map [ (item ? abilities) * (1 - exp (- (item ? expertises))) ]
-        ih))
-  mod 10
+
+  ; In the original code, the sum can go over 10 upon an increase in expertise.
+  ; In this case, due to the mod 10, the quality of a product could wrap from 10 to 0 just by gaining expertise..
+  ; In this version, the AVERAGE expertise contribution is computed (which is between 0 and 1)
+  ; and used as scale for the sum of abilities mod 10.
+  ; Now, an increase in expertise contribution will cause the quality to increase and always < 10
+  if length ih = 0
+  [
+    set quality 0
+    stop
+  ]
+  
+  let average-exp (reduce [?1 + ?2] (map [1 - exp (- (item ? expertises))] ih)) / length ih
+  let ab-sum-mod (reduce [?1 + ?2] (map [ item ? abilities] ih)) mod 10
+  set quality average-exp * ab-sum-mod
 end
 
 ; the mapping from innovation hypothesis to product number
