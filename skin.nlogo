@@ -28,7 +28,10 @@
 ; version 4.27 5 September 2006  Increase final-price; changed back to map-artefact; using cost-plus pricing;
 ;                                incr-step now proportional to capability value
 ; version 5    23 April   2010   Stripped down and simplified version of v4.29, converted to NetLogo 4.1
-
+;--------------------------------------------------------------------------------------------------------
+; version C1.0   18 September 2015 Ben Vermeulen: Distribution of abilities was not uniform 
+;                                  due to reflecting boundaries and included 10. Added mod 10 and random walk.
+;
 ; Notes:
 ;   A firm cannot be a member of more than 1 network at any one time
 ;   In the plots, networks are included in the count of firms (but not partnerships)
@@ -763,8 +766,16 @@ to do-incremental-research
   ifelse research-direction = "up" 
     [ set new-ability new-ability +  (new-ability / item ability-to-research capabilities) ]
     [ set new-ability new-ability -  (new-ability / item ability-to-research capabilities)  ]
-  if new-ability <= 0  [ set new-ability 0   set research-direction "random"]
-  if new-ability > 10  [ set new-ability 10  set research-direction "random"]
+    
+  ; ORIGINAL CODE:
+  ; if new-ability <= 0  [ set new-ability 0   set research-direction "random"] ; 0 as reflecting state occurs more often.
+  ; if new-ability > 10  [ set new-ability 10  set research-direction "random"] ; 10 now also occurs even though it is not a valid state.
+  ;
+  ; FIXED CODE:
+  set new-ability new-ability mod 10 ; Abilities now strictly >= 0 and lower than 10, uniform distribution
+  set research-direction "random"    ; No persistent search direction to prevent having to tell when to switch..
+  ; Note that research-direction may in fact be removed completely..
+
   set abilities replace-item  ability-to-research abilities new-ability
   set new-ih? true
   pay-tax incr-research-tax
@@ -2139,7 +2150,7 @@ Polygon -6459832 true true 46 128 33 120 21 118 11 123 3 138 5 160 13 178 9 192 
 Polygon -6459832 true true 67 122 96 126 63 144
 
 @#$#@#$#@
-NetLogo 5.1.0
+NetLogo 5.2.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
