@@ -10,9 +10,9 @@ CREDITS
 
 To cite the SKIN model please use the following acknowledgement:
 
-Gilbert, Nigel, Ahrweiler, Petra and Pyka, Andreas (2010) The SKIN (Simulating Knowledge Dynamics in Innovation Networks) model.  University of Surrey, University College Dublin and University of Hohenheim.
+Gilbert, Nigel, Ahrweiler, Petra and Pyka, Andreas (2010) The SKIN (Simulating Knowledge Dynamics in Innovation Networks) model.  University of Surrey, Johannes Gutenberg University Mainz and University of Hohenheim.
 
-Copyright 2003 - 2010 Nigel Gilbert, Petra Ahrweiler and Andreas Pyka. All rights reserved.
+Copyright 2003 - 2017 Nigel Gilbert, Petra Ahrweiler and Andreas Pyka. All rights reserved.
 
 Permission to use, modify or redistribute this model is hereby granted, provided that both of the following requirements are followed: a) this copyright notice is included. b) this model will not be redistributed for profit without permission and c) the requirements of the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License <http://creativecommons.org/licenses/by-nc-sa/3.0/> are complied with.
 
