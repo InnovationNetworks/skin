@@ -43,7 +43,7 @@
 ; version 4.27 5 September 2006  Increase final-price; changed back to map-artefact; using cost-plus pricing;
 ;                                incr-step now proportional to capability value
 ; version 5    23 April   2010   Stripped down and simplified version of v4.29, converted to NetLogo 4.1
-; version 5.32 9 May      2017   Updated to NetLogo 6.01 and licence updated
+; version 5.32 9 May      2017   Updated to NetLogo 6.01 and credit
 
 ; Notes:
 ;   A firm cannot be a member of more than 1 network at any one time
@@ -52,21 +52,21 @@
 
 ; globals preceded by ';' below are set by sliders, not by code
 globals [
-  ;   nFirms                       ; the number of firms initially
-  ;   nProducts                    ; the number of products that are possible
-  ;   nInputs                      ; the maximum number of inputs that a firm can require
-  ;   n-big-firms                  ; number of firms with 10 times initial capital of rest
-  ;   reward-to-trigger-start-up   ; a start-up is created when the best reward in the
-  ;                                   round is more than or equal to this
-  ;   attractiveness-threshold     ; how attractive a firm must be before it becomes a
-  ;    partner
-  ;   partnership-strategy         ; whether partners as alike (conservative) or as different
-  ;    as possible are sought
-  ;   success-threshold            ; how successful an innovation must be before it is a
-  ;    success
-  ;   in-out-products-percent      ; percentage of the product range which are raw-materials and
-  ;  end-user products e.g. 0 -> (in-out-products-percent / 100) are raw-materials
-  ;   initial-capital              ; the capital that a firm starts with
+;   nFirms                       ; the number of firms initially
+;   nProducts                    ; the number of products that are possible
+;   nInputs                      ; the maximum number of inputs that a firm can require
+;   n-big-firms                  ; number of firms with 10 times initial capital of rest
+;   reward-to-trigger-start-up   ; a start-up is created when the best reward in the
+;                                   round is more than or equal to this
+;   attractiveness-threshold     ; how attractive a firm must be before it becomes a
+                                 ;    partner
+;   partnership-strategy         ; whether partners as alike (conservative) or as different
+                                 ;    as possible are sought
+;   success-threshold            ; how successful an innovation must be before it is a
+                                 ;    success
+;   in-out-products-percent      ; percentage of the product range which are raw-materials and
+                                 ;  end-user products e.g. 0 -> (in-out-products-percent / 100) are raw-materials
+;   initial-capital              ; the capital that a firm starts with
   initial-capital-for-big-firms  ; the amount of start-up capital for those firms set to be 'big'
   maxPrice                       ; maximum initial price of any product
   maxQuality                     ; maximum initial quality of any product
@@ -102,7 +102,7 @@ firms-own [
   new-ih?                         ; true when a new IH has been generated
   advert                          ; a list of the capabilities of my innovation
                                   ;     hypothesis
-                                  ;research
+  ;research
   research-direction              ; direction of changing an ability
                                   ;     (for incremental research)
   ability-to-research             ; the ability that is being changed by incremental
@@ -345,9 +345,9 @@ end
 ;firm procedure
 to make-quality
   set quality
-  (reduce [ [?1 ?2] -> ?1 + ?2 ]
-    (map [ ?1 -> (item ?1 abilities) * (1 - exp (- (item ?1 expertises))) ]
-      ih))
+    (reduce [ [?1 ?2] -> ?1 + ?2 ]
+      (map [ ?1 -> (item ?1 abilities) * (1 - exp (- (item ?1 expertises))) ]
+        ih))
   mod 10
 end
 
@@ -360,8 +360,8 @@ end
 
 to-report map-artefact [ locations bottom top]
   report int
-  ((reduce [ [?1 ?2] -> ?1 + ?2 ]
-    (map [ ?1 -> (item ?1 capabilities) * (item ?1 abilities) ] locations)) mod (top - bottom)) + bottom
+    ((reduce [ [?1 ?2] -> ?1 + ?2 ]
+      (map [ ?1 -> (item ?1 capabilities) * (item ?1 abilities) ] locations)) mod (top - bottom)) + bottom
 end
 
 ; calculate what products a firm needs for its inputs.
@@ -473,7 +473,7 @@ to find-suppliers
   set previous-possible-firms no-turtles
   while [ possible-firms != previous-possible-firms ] [
     set previous-possible-firms possible-firms
-    set possible-firms possible-firms with [ profitable possible-firms ]
+  set possible-firms possible-firms with [ profitable possible-firms ]
   ]
   ask firms [set trading? false ]
   ask possible-firms [set trading? true ]
@@ -569,15 +569,15 @@ to purchase
     ifelse ?1 = "raw-material"
       [
         set total-cost total-cost + raw-cost
-    ]
-    [
-      set total-cost total-cost + [price] of ?1
-      ask ?1 [
-        set capital capital + price
-        set customers fput myself customers
-        set sales sales + price
       ]
-    ]
+      [
+        set total-cost total-cost + [price] of ?1
+        ask ?1 [
+          set capital capital + price
+          set customers fput myself customers
+          set sales sales + price
+        ]
+      ]
   ]
   ; buy the inputs from my capital
   set capital capital - total-cost
@@ -662,11 +662,11 @@ to-report compatible? [ possible-partner ]
   ifelse partnership-strategy = "conservative"
     [ set attractiveness (length intersection advert [advert] of possible-partner) /
       (min list length advert length [advert] of possible-partner) ]
-  [ ifelse (length intersection advert [advert] of possible-partner) >= 1
-    [ set attractiveness (length set-difference advert [advert] of possible-partner) /
-      (length advert + length [advert] of possible-partner) ]
-    [ set attractiveness 0 ]
-  ]
+    [ ifelse (length intersection advert [advert] of possible-partner) >= 1
+      [ set attractiveness (length set-difference advert [advert] of possible-partner) /
+        (length advert + length [advert] of possible-partner) ]
+      [ set attractiveness 0 ]
+    ]
   report attractiveness > attractiveness-threshold
 end
 
@@ -691,8 +691,8 @@ end
 
 ;firm procedure
 to learn-from-partners
-  ask partners [ merge-capabilities myself ]
-  make-innovation-hypothesis
+    ask partners [ merge-capabilities myself ]
+    make-innovation-hypothesis
 end
 
 ;firm procedure
@@ -721,17 +721,17 @@ to add-capabilities [ other-firm ]
       ]
     ]
     [
-      ; capability is new to me; adopt it if I have 'room'
-      if (length capabilities) < ((capital / capital-knowledge-ratio) + 1) [
-        set capabilities sentence capabilities capability
-        set abilities sentence abilities item ?1 [abilities] of other-firm
-        let other-expertise (item ?1 [expertises] of other-firm) - 1
-        ; if other-expertise is 1, it is immediately forgotten by adjust-expertise
-        if other-expertise < 2 [set other-expertise 2 ]
-        set expertises sentence expertises other-expertise
-      ]
+    ; capability is new to me; adopt it if I have 'room'
+    if (length capabilities) < ((capital / capital-knowledge-ratio) + 1) [
+      set capabilities sentence capabilities capability
+      set abilities sentence abilities item ?1 [abilities] of other-firm
+      let other-expertise (item ?1 [expertises] of other-firm) - 1
+      ; if other-expertise is 1, it is immediately forgotten by adjust-expertise
+      if other-expertise < 2 [set other-expertise 2 ]
+      set expertises sentence expertises other-expertise
     ]
   ]
+ ]
 end
 
 
@@ -750,7 +750,7 @@ to do-research
   if last-reward < success-threshold [
     ifelse capital <= low-capital-threshold
       [ do-radical-research ]
-    [ do-incremental-research ]
+      [ do-incremental-research ]
   ]
 end
 
@@ -773,12 +773,12 @@ to do-incremental-research
     set ability-to-research random length ih
     ifelse (random 2) = 1
       [ set research-direction "up" ]
-    [ set research-direction "down" ]
+      [ set research-direction "down" ]
   ]
   let new-ability item ability-to-research abilities
   ifelse research-direction = "up"
     [ set new-ability new-ability +  (new-ability / item ability-to-research capabilities) ]
-  [ set new-ability new-ability -  (new-ability / item ability-to-research capabilities)  ]
+    [ set new-ability new-ability -  (new-ability / item ability-to-research capabilities)  ]
   if new-ability <= 0  [ set new-ability 0   set research-direction "random"]
   if new-ability > 10  [ set new-ability 10  set research-direction "random"]
   set abilities replace-item  ability-to-research abilities new-ability
@@ -817,12 +817,12 @@ to adjust-expertise
     ifelse member? location ih
       [ ; capability has been used - increase expertise if possible
         if expertise < 10 [ set expertises replace-item location expertises (expertise + 1) ]
-    ]
-    [ ; capability has not been used - decrease expertise and drop capability if expertise has fallen to zero
-      ifelse expertise > 0
-      [ set expertises replace-item location expertises (expertise - 1) ]
-      [ forget-capability location set location location - 1]
-    ]
+      ]
+      [ ; capability has not been used - decrease expertise and drop capability if expertise has fallen to zero
+        ifelse expertise > 0
+        [ set expertises replace-item location expertises (expertise - 1) ]
+        [ forget-capability location set location location - 1]
+      ]
     set location location + 1
   ]
 end
@@ -937,7 +937,7 @@ to-report make-network
         ; tell the network about its HQ
         set hq hqfirm
         set members []
-      ]
+        ]
     ]
   ]
   report new-net
@@ -1112,84 +1112,84 @@ end
 
 ;observer procedure
 to show-plots
-  let count-of-firms count firms
-  if count-of-firms <= 2 [stop]
+    let count-of-firms count firms
+    if count-of-firms <= 2 [stop]
 
-  set-current-plot "Capital"
-  if count firms with [ capital > 0 ] > 0 [
-    set-current-plot-pen "Average"
-    plot mean [ log capital 10 ] of firms with [ capital > 0 ]
-  ]
+    set-current-plot "Capital"
+    if count firms with [ capital > 0 ] > 0 [
+     set-current-plot-pen "Average"
+     plot mean [ log capital 10 ] of firms with [ capital > 0 ]
+    ]
 
-  set-current-plot "Collaboration"
+    set-current-plot "Collaboration"
 
-  set-current-plot-pen "In partnership"
-  plot 100 * count firms with [ any? partners ] / count-of-firms
-  set-current-plot-pen "In network"
-  plot 100 * count firms with [ net != nobody ] / count-of-firms
+    set-current-plot-pen "In partnership"
+    plot 100 * count firms with [ any? partners ] / count-of-firms
+    set-current-plot-pen "In network"
+    plot 100 * count firms with [ net != nobody ] / count-of-firms
 
-  if any? networks [ plot-degree-distribution ]
+    if any? networks [ plot-degree-distribution ]
 
-  set-current-plot "Population"
-  set-current-plot-pen "Firms"
-  plot count-of-firms
-  set-current-plot-pen "Networks"
-  plot count networks
+    set-current-plot "Population"
+    set-current-plot-pen "Firms"
+    plot count-of-firms
+    set-current-plot-pen "Networks"
+    plot count networks
 
-  set-current-plot "Dynamics"
-  set-current-plot-pen "Successes"
-  let selling-firms count firms with [selling?]
-  if selling-firms > 0 [ plot 100 * count firms with [ last-reward > success-threshold ] / selling-firms ]
-  set-current-plot-pen "Start-ups"
-  plot 100 * count firms with [ age = 0 and ticks != 0 and not hq?] / count-of-firms
+    set-current-plot "Dynamics"
+    set-current-plot-pen "Successes"
+    let selling-firms count firms with [selling?]
+    if selling-firms > 0 [ plot 100 * count firms with [ last-reward > success-threshold ] / selling-firms ]
+    set-current-plot-pen "Start-ups"
+    plot 100 * count firms with [ age = 0 and ticks != 0 and not hq?] / count-of-firms
 
-  set-current-plot "Transactions"
-  set-current-plot-pen "Firms selling"
-  plot 100 * count firms with [ selling? ] / count-of-firms
-  set-current-plot-pen "Firms trading"
-  plot 100 *  count firms with [ trading? ] / count-of-firms
+    set-current-plot "Transactions"
+    set-current-plot-pen "Firms selling"
+    plot 100 * count firms with [ selling? ] / count-of-firms
+    set-current-plot-pen "Firms trading"
+    plot 100 *  count firms with [ trading? ] / count-of-firms
 
-  set-current-plot "Sales"
-  if count firms with [sales > 0] > 0 [
-    set-current-plot-pen "Sales"
-    plot mean [sales ] of firms with [sales > 0 ]
-  ]
-  if count firms with [last-reward > 0] > 0 [
-    set-current-plot-pen "Profit"
-    plot mean [ last-reward ] of firms with [last-reward > 0 ]
-  ]
+    set-current-plot "Sales"
+    if count firms with [sales > 0] > 0 [
+      set-current-plot-pen "Sales"
+      plot mean [sales ] of firms with [sales > 0 ]
+      ]
+    if count firms with [last-reward > 0] > 0 [
+      set-current-plot-pen "Profit"
+      plot mean [ last-reward ] of firms with [last-reward > 0 ]
+      ]
 
-  set-current-plot "Networks"
-  if count networks > 0 [
-    set-plot-x-range 1  max list 20 1 + max [length members] of networks
-    histogram [ length members ] of networks
-  ]
+    set-current-plot "Networks"
+    if count networks > 0 [
+      set-plot-x-range 1  max list 20 1 + max [length members] of networks
+      histogram [ length members ] of networks
+      ]
 
-  set-current-plot "Partners"
-  histogram  [count partners] of firms with [ any? partners ]
+    set-current-plot "Partners"
+    histogram  [count partners] of firms with [ any? partners ]
 
-  set-current-plot "Age distribution"
-  set-current-plot-pen "Age"
-  let max-age max [ age ] of firms
-  if  max-age > 0 [
-    set-plot-x-range 0 max-age
-    histogram [age ] of firms
-  ]
+    set-current-plot "Age distribution"
+    set-current-plot-pen "Age"
+    let max-age max [ age ] of firms
+    if  max-age > 0 [
+      set-plot-x-range 0 max-age
+      histogram [age ] of firms
+      ]
 
-  set-current-plot "Size distribution"
-  set-current-plot-pen "Size"
-  let max-cap max [ capital ] of firms
-  if max-cap > 0 [ histogram [ 100 * capital / max-cap ] of firms ]
+    set-current-plot "Size distribution"
+    set-current-plot-pen "Size"
+    let max-cap max [ capital ] of firms
+    if max-cap > 0 [ histogram [ 100 * capital / max-cap ] of firms ]
 
-  set-current-plot "Rate of radical research"
-  set-current-plot-pen "Rad-research"
-  plot count firms with [ done-rad-research ]
+    set-current-plot "Rate of radical research"
+    set-current-plot-pen "Rad-research"
+    plot count firms with [ done-rad-research ]
 
-  set-current-plot "Artefacts"
-  set-current-plot-pen "Products"
-  histogram  [ product] of firms
-  set-current-plot-pen "Inputs"
-  histogram reduce [ [?1 ?2] -> sentence ?1 ?2 ] [ inputs ] of firms
+    set-current-plot "Artefacts"
+    set-current-plot-pen "Products"
+    histogram  [ product] of firms
+    set-current-plot-pen "Inputs"
+    histogram reduce [ [?1 ?2] -> sentence ?1 ?2 ] [ inputs ] of firms
 end
 
 ;
@@ -1223,24 +1223,24 @@ to plot-degree-distribution
         set sumxx sumxx + x * x
         set sumyy sumyy + y * y
         set n n + 1
-    ]
+        ]
     set degree degree + 1
   ]
   if n > 1 [
-    let slope  (n * sumxy - sumx * sumy) / (n * sumxx - sumx * sumx)
-    let intercept  (sumy - slope * sumx) / n
-    create-temporary-plot-pen "regression line"
-    set-plot-pen-mode 0
-    set-plot-pen-color red
-    plot-pen-up
-    plotxy 0 intercept
-    plot-pen-down
-    ifelse slope = 0 [
-      plotxy intercept intercept  ;; regression line is parallel to x-axis
-    ]
-    [
-      plotxy -1 * intercept / slope 0
-    ]
+   let slope  (n * sumxy - sumx * sumy) / (n * sumxx - sumx * sumx)
+   let intercept  (sumy - slope * sumx) / n
+   create-temporary-plot-pen "regression line"
+   set-plot-pen-mode 0
+   set-plot-pen-color red
+   plot-pen-up
+   plotxy 0 intercept
+   plot-pen-down
+   ifelse slope = 0 [
+     plotxy intercept intercept  ;; regression line is parallel to x-axis
+     ]
+     [
+     plotxy -1 * intercept / slope 0
+     ]
   ]
 end
 
