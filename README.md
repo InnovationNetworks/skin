@@ -16,4 +16,4 @@ Copyright 2003 - 2017 Nigel Gilbert, Petra Ahrweiler and Andreas Pyka. All right
 
 Permission to use, modify or redistribute this model is hereby granted, provided that both of the following requirements are followed: a) this copyright notice is included. b) this model will not be redistributed for profit without permission and c) the requirements of the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License <http://creativecommons.org/licenses/by-nc-sa/3.0/> are complied with.
 
-The authors gratefully acknowldge funding during the course of development of the model from the European Commission, DAAD, and the British Council.
+The authors gratefully acknowledge funding during the course of development of the model from the European Commission, DAAD, and the British Council.
