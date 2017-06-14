@@ -1,0 +1,12 @@
+Releasenotes for NetLogo SQL Wrapper version 1.1
+
+Please consult the user manaul for detailed information on NetLogo SQL Wrapper.
+
+Changes for version 1.1:
+* Support for PostgreSQL
+* Support for generic database through JDBC (Java DataBase Connection)
+* Fix sql:connect reusing values of previous call instead of applying the defaults
+* Documentation now has URLs and crossreferences shown blue and underlined for readability
+
+Changes for version 1.0:
+* Initial version
